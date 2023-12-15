@@ -154,4 +154,8 @@ local OldNamecall; OldNamecall = hookmetamethod(game, "__namecall", newcclosure(
 	return OldNamecall(...)
 end))
 
+if _G.useGui == false then
+    SG:Destroy()
+end
+
 game:GetService("Chat"):Chat(game.Players.LocalPlayer.Character.Head, "use ''/r <message>'' 🤑", Enum.ChatColor.Blue)
