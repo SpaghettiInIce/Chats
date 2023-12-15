@@ -90,7 +90,6 @@ closebutton.AnchorPoint = Vector2.new(1, 0)
 closebutton.TextScaled = true
 closebutton.BackgroundColor3 = Color3.new(0, 0, 0)
 closebutton.BackgroundTransparency = 0.5
-closebutton.Visible = false
 closebutton.Text = "X"
 closebutton.Position = UDim2.new(1, 0, 0, 0)
 closebutton.TextColor3 = Color3.new(1, 1, 1)
@@ -100,10 +99,7 @@ ui.AspectRatio = 4
 closebutton.MouseButton1Up:Connect(function()
     SG:Destroy()
 end)
-
 textlabel.Text = "Error..."
-closebutton.Visible = true
-
 player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Frame_MessageLogDisplay.Scroller.ChildAdded:Connect(function(msg)
     wait(1)
     while msg.TextLabel.Text:match("<font dir") == true do
