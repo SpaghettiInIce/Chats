@@ -36,7 +36,7 @@ local charSubstitutions = {
     ["8"] = "щ",
     ["9"] = "з"
 }
-local player = game:GetService("Players").LocalPlayer
+local player = game.Players.LocalPlayer
 local function convert(str)
     str = str:lower()
     for k, v in pairs(charSubstitutions) do
