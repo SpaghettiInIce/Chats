@@ -1,3 +1,6 @@
+if not _G.useGui then
+    _G.useGui = false
+end
 local charSubstitutions = {
     a = "的",
     b = "一",
@@ -56,6 +59,7 @@ local function chat(str)
     end
 end
 
+if _G.useGui == true then
 local player = game:GetService("Players").LocalPlayer
 local SG = Instance.new("ScreenGui", player.PlayerGui)
 local frame = Instance.new("Frame", SG)
@@ -99,6 +103,7 @@ end)
 textbox.FocusLost:Connect(function()
     chat("`" ..convert(textbox.Text))
 end)
+end
 
 player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Frame_MessageLogDisplay.Scroller.ChildAdded:Connect(function(msg)
     wait(0.5)
