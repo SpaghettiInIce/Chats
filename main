@@ -100,9 +100,6 @@ ui.AspectRatio = 4
 closebutton.MouseButton1Up:Connect(function()
     SG:Destroy()
 end)
-textbox.FocusLost:Connect(function()
-    chat("`" ..convert(textbox.Text))
-end)
 
 textlabel.Text = "Error..."
 closebutton.Visible = true
