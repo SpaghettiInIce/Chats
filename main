@@ -41,14 +41,16 @@ local function convert(str)
     for k, v in pairs(charSubstitutions) do
         str = str:gsub(k, v)
     end
+	str = "🔒 " .. str
     return str
 end
 local function unconvert(str)
     str = str:lower()
+    str:gsub("🔒 ", "")
     for k, v in pairs(charSubstitutions) do
         str = str:gsub(v, k)
     end
-	str = "👨‍💻 | " .. str
+	str = "🔓 | " .. str
     return str
 end
 local function chat(str)
@@ -60,27 +62,27 @@ end
 local player = game:GetService("Players").LocalPlayer
 local SG = Instance.new("ScreenGui", player.PlayerGui)
 local frame = Instance.new("Frame", SG)
-local textbox = Instance.new("TextBox", frame)
+local textlabel = Instance.new("TextLabel", frame)
 local closebutton = Instance.new("TextButton", frame)
 
 -- Frame
 frame.Size = UDim2.new(0.25, 0, 0.25, 0)
 frame.AnchorPoint = Vector2.new(0.5, 0.5)
-frame.Position = UDim2.new(0.5, 0, 0.75, 0)
+frame.Position = UDim2.new(0.5, 0, 0.75, 0) 
 frame.Active = true
 frame.Draggable = true
 frame.BackgroundColor3 = Color3.new(0, 0, 0)
 frame.BackgroundTransparency = 0.7
 
--- Textbox
-textbox.AnchorPoint = Vector2.new(0.5, 0.5)
-textbox.Size = UDim2.new(0.9, 0, 0.5, 0)
-textbox.Position = UDim2.new(0.5, 0, 0.65, 0)
-textbox.TextScaled = true
-textbox.BackgroundColor3 = Color3.new(0, 0, 0)
-textbox.BackgroundTransparency = 0.5
-textbox.Text = "Enter text here"
-textbox.TextColor3 = Color3.new(1, 1, 1)
+-- TextLabel (changed from Textbox)
+textlabel.AnchorPoint = Vector2.new(0.5, 0.5)
+textlabel.Size = UDim2.new(0.9, 0, 0.5, 0)
+textlabel.Position = UDim2.new(0.5, 0, 0.65, 0)
+textlabel.TextScaled = true
+textlabel.BackgroundColor3 = Color3.new(0, 0, 0)
+textlabel.BackgroundTransparency = 0.5
+textlabel.Text = "Loading..."
+textlabel.TextColor3 = Color3.new(1, 1, 1)
 
 -- Close Button
 closebutton.Size = UDim2.new(0.15, 0, 0.25, 0)
@@ -88,6 +90,7 @@ closebutton.AnchorPoint = Vector2.new(1, 0)
 closebutton.TextScaled = true
 closebutton.BackgroundColor3 = Color3.new(0, 0, 0)
 closebutton.BackgroundTransparency = 0.5
+closebutton.Visible = false
 closebutton.Text = "X"
 closebutton.Position = UDim2.new(1, 0, 0, 0)
 closebutton.TextColor3 = Color3.new(1, 1, 1)
@@ -100,6 +103,9 @@ end)
 textbox.FocusLost:Connect(function()
     chat("`" ..convert(textbox.Text))
 end)
+
+textlabel.Text = "Error..."
+closebutton.Visible = true
 
 player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Frame_MessageLogDisplay.Scroller.ChildAdded:Connect(function(msg)
     wait(1)
