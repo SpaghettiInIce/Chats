@@ -132,8 +132,8 @@ local function Replace(Message)
 
 	if string.sub(Message, 1, 3) == "/r " then
 		local restOfMessage = string.sub(Message, 4)
-		chat("`" .. convert(restOfMessage))
-	end
+		Message = "`" .. convert(restOfMessage)
+  	end
 
 	return Message
 end
@@ -148,3 +148,5 @@ local OldNamecall; OldNamecall = hookmetamethod(game, "__namecall", newcclosure(
 
 	return OldNamecall(...)
 end))
+
+game:GetService("Chat"):Chat(game.Players.LocalPlayer.Character.Head, "use ''/r <message>'' 🤑", Enum.ChatColor.Blue)
