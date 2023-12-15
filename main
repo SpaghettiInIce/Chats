@@ -48,6 +48,7 @@ local function unconvert(str)
     for k, v in pairs(charSubstitutions) do
         str = str:gsub(v, k)
     end
+	str = "👨‍💻 | " .. str
     return str
 end
 local function chat(str)
