@@ -41,17 +41,13 @@ local function convert(str)
     for k, v in pairs(charSubstitutions) do
         str = str:gsub(k, v)
     end
-	str = "🔒 " .. str
     return str
 end
 local function unconvert(str)
     str = str:lower()
-    local inputString = str
-    str = (string.match(inputString, "🔒 (.*)") or inputString)
     for k, v in pairs(charSubstitutions) do
         str = str:gsub(v, k)
     end
-	str = str .. " | 🔓"
     return str
 end
 local function chat(str)
@@ -111,7 +107,7 @@ player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Frame_MessageLogDisplay.Scrol
 
     local message = msg.TextLabel.Text
     if message:match("`") then
-        msg.TextLabel.TextColor3 = Color3.new(1, 0.85098, 0)
+        msg.TextLabel.TextColor3 = Color3.new(1, 1, 1)
         message = unconvert(message:gsub("`",""))
         msg.TextLabel.Text = message
     end
