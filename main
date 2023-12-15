@@ -1,0 +1,126 @@
+local charSubstitutions = {
+    a = "的",
+    b = "一",
+    c = "是",
+    d = "不",
+    e = "了",
+    f = "人",
+    g = "我",
+    h = "在",
+    i = "有",
+    j = "他",
+    k = "这",
+    l = "为",
+    m = "之",
+    n = "大",
+    o = "来",
+    p = "以",
+    q = "个",
+    r = "中",
+    s = "上",
+    t = "们",
+    u = "到",
+    v = "说",
+    w = "国",
+    x = "和",
+    y = "地",
+    z = "也",
+    ["0"] = "й",
+    ["1"] = "ц",
+    ["2"] = "у",
+    ["3"] = "к",
+    ["4"] = "е",
+    ["5"] = "н",
+    ["6"] = "г",
+    ["7"] = "ш",
+    ["8"] = "щ",
+    ["9"] = "з"
+}
+local function convert(str)
+    str = str:lower()
+    for k, v in pairs(charSubstitutions) do
+        str = str:gsub(k, v)
+    end
+    return str
+end
+local function unconvert(str)
+    str = str:lower()
+    for k, v in pairs(charSubstitutions) do
+        str = str:gsub(v, k)
+    end
+    return str
+end
+local function chat(str)
+    if #str > 1 then
+	    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(str,"All")
+    end
+end
+
+local player = game:GetService("Players").LocalPlayer
+local SG = Instance.new("ScreenGui", player.PlayerGui)
+local frame = Instance.new("Frame", SG)
+local textbox = Instance.new("TextBox", frame)
+local closebutton = Instance.new("TextButton", frame)
+
+-- Frame
+frame.Size = UDim2.new(0.25, 0, 0.25, 0)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.Position = UDim2.new(0.5, 0, 0.75, 0)
+frame.Active = true
+frame.Draggable = true
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.BackgroundTransparency = 0.7
+
+-- Textbox
+textbox.AnchorPoint = Vector2.new(0.5, 0.5)
+textbox.Size = UDim2.new(0.9, 0, 0.5, 0)
+textbox.Position = UDim2.new(0.5, 0, 0.65, 0)
+textbox.TextScaled = true
+textbox.BackgroundColor3 = Color3.new(0, 0, 0)
+textbox.BackgroundTransparency = 0.5
+textbox.Text = "Enter text here"
+textbox.TextColor3 = Color3.new(1, 1, 1)
+
+-- Close Button
+closebutton.Size = UDim2.new(0.15, 0, 0.25, 0)
+closebutton.AnchorPoint = Vector2.new(1, 0)
+closebutton.TextScaled = true
+closebutton.BackgroundColor3 = Color3.new(0, 0, 0)
+closebutton.BackgroundTransparency = 0.5
+closebutton.Text = "X"
+closebutton.Position = UDim2.new(1, 0, 0, 0)
+closebutton.TextColor3 = Color3.new(1, 1, 1)
+
+local ui = Instance.new("UIAspectRatioConstraint", frame)
+ui.AspectRatio = 4
+closebutton.MouseButton1Up:Connect(function()
+    SG:Destroy()
+end)
+textbox.FocusLost:Connect(function()
+    chat("`" ..convert(textbox.Text))
+end)
+
+player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Frame_MessageLogDisplay.Scroller.ChildAdded:Connect(function(msg)
+    wait(0.25)
+    while msg.TextLabel.Text:match("<font dir") == true do
+        wait()
+    end
+
+    local message = msg.TextLabel.Text
+    if message:match("`") then
+        msg.TextLabel.TextColor3 = Color3.new(1, 0.85098, 0)
+        message = unconvert(message:gsub("`",""))
+        msg.TextLabel.Text = message
+    end
+end)
+local CoreGui = game:GetService("CoreGui")
+if CoreGui:FindFirstChild("BubbleChat") then
+    CoreGui.BubbleChat.DescendantAdded:Connect(function(bubble)
+        wait()
+        if bubble:IsA("TextLabel") and bubble.Text:match("`") then
+            bubble.Parent.BackgroundColor3 = Color3.new(0, 0, 0)
+            bubble.Text = unconvert(bubble.Text:gsub("`",""))
+            bubble.TextColor3 = Color3.new(1, 1, 1)
+        end
+    end)
+end
