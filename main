@@ -46,7 +46,8 @@ local function convert(str)
 end
 local function unconvert(str)
     str = str:lower()
-    str = str:gsub("🔒 ", "")
+    local inputString = str
+    str = (string.match(inputString, "🔒 (.*)") or inputString)
     for k, v in pairs(charSubstitutions) do
         str = str:gsub(v, k)
     end
