@@ -46,7 +46,7 @@ local function convert(str)
 end
 local function unconvert(str)
     str = str:lower()
-    str:gsub("🔒 ", "")
+    str = str:gsub("🔒 ", "")
     for k, v in pairs(charSubstitutions) do
         str = str:gsub(v, k)
     end
@@ -90,16 +90,18 @@ closebutton.AnchorPoint = Vector2.new(1, 0)
 closebutton.TextScaled = true
 closebutton.BackgroundColor3 = Color3.new(0, 0, 0)
 closebutton.BackgroundTransparency = 0.5
+closebutton.Visible = false
 closebutton.Text = "X"
 closebutton.Position = UDim2.new(1, 0, 0, 0)
 closebutton.TextColor3 = Color3.new(1, 1, 1)
+
+closebutton.Visible = true
 
 local ui = Instance.new("UIAspectRatioConstraint", frame)
 ui.AspectRatio = 4
 closebutton.MouseButton1Up:Connect(function()
     SG:Destroy()
 end)
-textlabel.Text = "Error..."
 player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Frame_MessageLogDisplay.Scroller.ChildAdded:Connect(function(msg)
     wait(1)
     while msg.TextLabel.Text:match("<font dir") == true do
