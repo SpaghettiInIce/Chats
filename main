@@ -101,7 +101,7 @@ textbox.FocusLost:Connect(function()
 end)
 
 player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Frame_MessageLogDisplay.Scroller.ChildAdded:Connect(function(msg)
-    wait(0.5)
+    wait(1)
     while msg.TextLabel.Text:match("<font dir") == true do
         wait()
     end
@@ -116,11 +116,14 @@ end)
 local CoreGui = game:GetService("CoreGui")
 if CoreGui:FindFirstChild("BubbleChat") then
     CoreGui.BubbleChat.DescendantAdded:Connect(function(bubble)
-        wait()
+        wait(1)
         if bubble:IsA("TextLabel") and bubble.Text:match("`") then
             bubble.Parent.BackgroundColor3 = Color3.new(0, 0, 0)
-            bubble.Text = unconvert(bubble.Text:gsub("`",""))
-            bubble.TextColor3 = Color3.new(1, 1, 1)
+			bubble.Text = unconvert(bubble.Text:gsub("`", ""))
+			bubble.TextColor3 = Color3.new(1, 1, 1)
+			bubble.TextStrokeTransparency = 0 -- Set to 0 for no transparency
+			bubble.TextStrokeColor3 = Color3.new(0, 0, 0) -- Set to black or desired color
+			bubble.BackgroundTransparency = 1
         end
     end)
 end
@@ -148,10 +151,6 @@ local OldNamecall; OldNamecall = hookmetamethod(game, "__namecall", newcclosure(
 
 	return OldNamecall(...)
 end))
-
-if _G.useGui == false then
-    SG:Destroy()
-end
 
 game:GetService("Chat"):Chat(game.Players.LocalPlayer.Character.Head, "use ''/r <message>'' 🤑", Enum.ChatColor.Blue)
 SG:Destroy()
