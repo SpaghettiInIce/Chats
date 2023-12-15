@@ -1,6 +1,3 @@
-if not _G.useGui then
-    _G.useGui = false
-end
 local charSubstitutions = {
     a = "的",
     b = "一",
@@ -58,53 +55,6 @@ local function chat(str)
 	    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(str,"All")
     end
 end
-
-if _G.useGui == true then
-local player = game:GetService("Players").LocalPlayer
-local SG = Instance.new("ScreenGui", player.PlayerGui)
-local frame = Instance.new("Frame", SG)
-local textbox = Instance.new("TextBox", frame)
-local closebutton = Instance.new("TextButton", frame)
-
--- Frame
-frame.Size = UDim2.new(0.25, 0, 0.25, 0)
-frame.AnchorPoint = Vector2.new(0.5, 0.5)
-frame.Position = UDim2.new(0.5, 0, 0.75, 0)
-frame.Active = true
-frame.Draggable = true
-frame.BackgroundColor3 = Color3.new(0, 0, 0)
-frame.BackgroundTransparency = 0.7
-
--- Textbox
-textbox.AnchorPoint = Vector2.new(0.5, 0.5)
-textbox.Size = UDim2.new(0.9, 0, 0.5, 0)
-textbox.Position = UDim2.new(0.5, 0, 0.65, 0)
-textbox.TextScaled = true
-textbox.BackgroundColor3 = Color3.new(0, 0, 0)
-textbox.BackgroundTransparency = 0.5
-textbox.Text = "Enter text here"
-textbox.TextColor3 = Color3.new(1, 1, 1)
-
--- Close Button
-closebutton.Size = UDim2.new(0.15, 0, 0.25, 0)
-closebutton.AnchorPoint = Vector2.new(1, 0)
-closebutton.TextScaled = true
-closebutton.BackgroundColor3 = Color3.new(0, 0, 0)
-closebutton.BackgroundTransparency = 0.5
-closebutton.Text = "X"
-closebutton.Position = UDim2.new(1, 0, 0, 0)
-closebutton.TextColor3 = Color3.new(1, 1, 1)
-
-local ui = Instance.new("UIAspectRatioConstraint", frame)
-ui.AspectRatio = 4
-closebutton.MouseButton1Up:Connect(function()
-    SG:Destroy()
-end)
-textbox.FocusLost:Connect(function()
-    chat("`" ..convert(textbox.Text))
-end)
-end
-
 player.PlayerGui.Chat.Frame.ChatChannelParentFrame.Frame_MessageLogDisplay.Scroller.ChildAdded:Connect(function(msg)
     wait(0.5)
     while msg.TextLabel.Text:match("<font dir") == true do
@@ -153,9 +103,4 @@ local OldNamecall; OldNamecall = hookmetamethod(game, "__namecall", newcclosure(
 
 	return OldNamecall(...)
 end))
-
-if _G.useGui == false then
-    SG:Destroy()
-end
-
 game:GetService("Chat"):Chat(game.Players.LocalPlayer.Character.Head, "use ''/r <message>'' 🤑", Enum.ChatColor.Blue)
